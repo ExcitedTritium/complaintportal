@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campus Complaint Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              'sans': ['Poppins', 'sans-serif'],
+              'display': ['Montserrat', 'sans-serif'],
+            },
+            colors: {
+              'bg-dark': '#0a1128',
+              'card-dark': '#1a2642',
+              'text-dark': '#e0e8ff',
+              'text-light-dark': '#a0b8e0',
+              'bg-light': '#f0f4ff',
+              'card-light': '#ffffff',
+              'text-light-mode': '#1a1a2e',
+              'text-light-light': '#555555',
+              'primary': '#4361ee',
+              'secondary': '#7209b7',
+              'accent': '#f72585',
+              'border-dark': '#334155',
+              'border-light': '#e0e0f0',
+            },
+            boxShadow: {
+              'glow-dark': '0 10px 30px rgba(0, 0, 0, 0.3)',
+              'glow-light': '0 10px 30px rgba(0, 0, 0, 0.08)',
+              'glow-primary': '0 0 0 4px rgba(67, 97, 238, 0.15)',
+              'glow-button': '0 10px 25px rgba(67, 97, 238, 0.3)',
+            },
+            animation: {
+              'fadeInUp': 'fadeInUp 0.8s ease-out forwards',
+              'popIn': 'popIn 0.5s ease-out forwards',
+              'twinkle': 'twinkle 4s linear infinite'
+            },
+            keyframes: {
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              popIn: {
+                '0%': { transform: 'scale(0.8)', opacity: '0' },
+                '70%': { transform: 'scale(1.05)' },
+                '100%': { transform: 'scale(1)', opacity: '1' },
+              },
+              twinkle: {
+                '0%, 100%': { opacity: '0.3' },
+                '50%': { opacity: '1' }
+              }
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      .bg-nebula {
+        background: radial-gradient(ellipse at 20% 30%, rgba(114, 9, 183, 0.1), transparent 40%),
+                    radial-gradient(ellipse at 80% 70%, rgba(67, 97, 238, 0.1), transparent 40%);
+      }
+      html.light .bg-nebula {
+        background: radial-gradient(ellipse at 20% 30%, rgba(114, 9, 183, 0.05), transparent 50%),
+                    radial-gradient(ellipse at 80% 70%, rgba(67, 97, 238, 0.05), transparent 50%);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.1/",
+    "react": "https://esm.sh/react@^19.1.1",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.15.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-bg-light dark:bg-bg-dark text-text-light-mode dark:text-text-dark font-sans transition-colors duration-500">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
