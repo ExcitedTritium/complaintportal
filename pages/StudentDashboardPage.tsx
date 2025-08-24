@@ -16,9 +16,9 @@ const categoryIcons: Record<Exclude<ComplaintCategory, ''>, string> = {
     'Other': '💬'
 };
 
-// IMPORTANT: Replace this with your actual Google Gemini API Key.
-// Get one from Google AI Studio: https://aistudio.google.com/app/apikey
-const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE";
+// This will be populated by Vite from the VITE_GEMINI_API_KEY environment variable.
+// Set this in your hosting provider's settings (Vercel, Netlify, etc.).
+const GEMINI_API_KEY = process.env.API_KEY;
 
 interface StudentDashboardPageProps {
   onNavigate: (page: Page) => void;
@@ -36,8 +36,13 @@ const StudentDashboardPage: React.FC<StudentDashboardPageProps> = ({ onNavigate 
     }, []);
 
     const ai = useMemo(() => {
-        if (GEMINI_API_KEY && GEMINI_API_KEY !== "YOUR_GEMINI_API_KEY_HERE") {
-            return new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+        if (GEMINI_API_KEY) {
+            try {
+                return new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+            } catch (e) {
+                console.error("Failed to initialize Gemini AI:", e);
+                return null;
+            }
         }
         return null;
     }, []);
@@ -123,7 +128,7 @@ const StudentDashboardPage: React.FC<StudentDashboardPageProps> = ({ onNavigate 
                           <label htmlFor="category" className="block text-sm font-medium text-text-light-mode dark:text-text-light-dark mb-2">
                             Category
                             {!ai && (
-                                <span className="text-xs ml-2 font-normal text-text-light-light dark:text-text-light-dark" title="Add your Gemini API key in StudentDashboardPage.tsx to enable AI-powered category suggestions.">(AI Suggestion Disabled)</span>
+                                <span className="text-xs ml-2 font-normal text-text-light-light dark:text-text-light-dark" title="Set your VITE_GEMINI_API_KEY environment variable in your hosting platform (Vercel, Netlify, etc) to enable this.">(AI Suggestion Disabled)</span>
                             )}
                           </label>
                            <div className="relative">
