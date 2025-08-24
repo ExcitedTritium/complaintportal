@@ -16,6 +16,10 @@ const categoryIcons: Record<Exclude<ComplaintCategory, ''>, string> = {
     'Other': '💬'
 };
 
+// IMPORTANT: Replace this with your actual Google Gemini API Key.
+// Get one from Google AI Studio: https://aistudio.google.com/app/apikey
+const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE";
+
 interface StudentDashboardPageProps {
   onNavigate: (page: Page) => void;
 }
@@ -31,7 +35,12 @@ const StudentDashboardPage: React.FC<StudentDashboardPageProps> = ({ onNavigate 
         setComplaints(getComplaints());
     }, []);
 
-    const ai = useMemo(() => new GoogleGenAI({ apiKey: process.env.API_KEY }), []);
+    const ai = useMemo(() => {
+        if (GEMINI_API_KEY && GEMINI_API_KEY !== "YOUR_GEMINI_API_KEY_HERE") {
+            return new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+        }
+        return null;
+    }, []);
 
     const handleLogout = () => {
         onNavigate(Page.Home);
@@ -62,7 +71,8 @@ const StudentDashboardPage: React.FC<StudentDashboardPageProps> = ({ onNavigate 
     };
     
     const getCategorySuggestion = useCallback(async (text: string) => {
-        if (text.trim().split(' ').length < 5) return; // Only suggest for longer descriptions
+        // Only suggest if AI is enabled and for longer descriptions
+        if (!ai || text.trim().split(' ').length < 5) return;
         setIsSuggesting(true);
         try {
             const prompt = `Based on the following complaint, categorize it into one of these exact categories: Infrastructure, Academics, Facilities, Other. Respond with only the category name.\n\nComplaint: "${text}"`;
@@ -79,7 +89,7 @@ const StudentDashboardPage: React.FC<StudentDashboardPageProps> = ({ onNavigate 
         } finally {
             setIsSuggesting(false);
         }
-    }, [ai.models]);
+    }, [ai]);
 
     useEffect(() => {
         const handler = setTimeout(() => {
@@ -112,6 +122,9 @@ const StudentDashboardPage: React.FC<StudentDashboardPageProps> = ({ onNavigate 
                         <div>
                           <label htmlFor="category" className="block text-sm font-medium text-text-light-mode dark:text-text-light-dark mb-2">
                             Category
+                            {!ai && (
+                                <span className="text-xs ml-2 font-normal text-text-light-light dark:text-text-light-dark" title="Add your Gemini API key in StudentDashboardPage.tsx to enable AI-powered category suggestions.">(AI Suggestion Disabled)</span>
+                            )}
                           </label>
                            <div className="relative">
                             <select 
